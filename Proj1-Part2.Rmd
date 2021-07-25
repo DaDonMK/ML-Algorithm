@@ -1,0 +1,39 @@
+---
+title: "Project 1-2"
+output: html_document
+---
+
+```{r}
+Titanic <- read.csv('~/Downloads/titanic_project.csv')
+df <- Titanic
+set.seed(1234)
+train <- df[1:900,]
+test <- df[901:1406,]
+
+start_time2 <- Sys.time()
+nb1 <- naiveBayes(survived~pclass+sex+age, data=train)
+end_time2 <- Sys.time()
+
+print(nb1)
+pred2 <- predict(nb1, newdata = test, type="class")
+
+table(pred2, as.integer(test$survived))
+
+acc2 <- (69+42)/(69+42+25+10)
+sens2 <- (69)/(69+10)
+spec2 <- (42)/(42+25)
+
+par(mfrow=c(1,3)) 
+boxplot(train$age~train$survived, xlab="Survived", ylab="Age")
+boxplot(train$age~train$pclass, xlab="Class", ylab="Age")
+boxplot(train$X~train$survived, xlab="Survived", ylab="X")
+
+names(df)
+summary(df)
+nrow(df)
+ncol(df)
+
+print(paste("Run time was: ", end_time2 - start_time2))
+
+
+```
